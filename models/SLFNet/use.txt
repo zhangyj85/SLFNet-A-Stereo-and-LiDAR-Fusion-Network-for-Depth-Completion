@@ -1,1 +1,0 @@
-使用DCN，需要先在deformconv下进行 ./make.sh以安装和DCN相关的链接库

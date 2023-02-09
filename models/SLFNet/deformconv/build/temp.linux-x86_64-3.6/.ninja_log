@@ -1,8 +1,0 @@
-# ninja log v5
-0	18379	1628069877521077807	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/cpu/deform_psroi_pooling_cpu.o	4b767eb8285b9609
-1	18771	1628069877521077807	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/cpu/deform_cpu.o	be06c9ae30321c7d
-0	19370	1628069877521077807	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/cpu/modulated_deform_cpu.o	ac28dad6a8c50b00
-1	27885	1628069887712618288	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/cuda/deform_psroi_pooling_cuda.o	aa5ba9ee29e38be1
-1	27889	1628069887716618118	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/cuda/deform_conv_cuda.o	d3430402d66fcc3d
-1	27895	1628069887724617778	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/cuda/modulated_deform_conv_cuda.o	5a8c9eb15b24915d
-0	30093	1628069889920526012	/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/build/temp.linux-x86_64-3.6/home/kunb/KITTI_DepthComplement/depth/MyModel_0730/models/deformconv/src/vision.o	d3f321200d04d182

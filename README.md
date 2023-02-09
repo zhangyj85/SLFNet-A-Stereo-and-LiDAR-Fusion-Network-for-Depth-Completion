@@ -1,8 +1,10 @@
 # SLFNet: A Stereo and LiDAR Fusion Network for Depth Completion
 
-Pytorch implementation of "SLFNet: A Stereo and LiDAR Fusion Network for Depth Completion", RAL2022.
+Yongjian Zhang, Longguang Wang, Kunhong Li, Zhiheng Fu and Yulan guo
 
-[[paper]](https://ieeexplore.ieee.org/abstract/document/9830848)
+Pytorch implementation of [[paper]](https://ieeexplore.ieee.org/abstract/document/9830848) "SLFNet: A Stereo and LiDAR Fusion Network for Depth Completion"
+
+IEEE Robotics and Automation Letters (RAL), Aug 2022.
 
 
 ## Requirements
@@ -18,9 +20,12 @@ We used preprocessed KITTIDC dataset provided by [Jinsun Park](https://github.co
 - Please follow the official instructions (cf., devkit/readme.txt in each dataset) for preparation.
 
 After downloading datasets, you should first copy color images, poses, and calibrations from the KITTI Raw to the KITTI DC dataset.
+
 	$ cd SLFNet/data_prepare
 	$ python prepare_KITTI_DC.py --path_root_dc PATH_TO_KITTI_DC --path_root_raw PATH_TO_KITTI_RAW
+
 After that, you will get a data structure as follows:
+
 	.
 	├── depth_selection
 	│    ├── test_depth_completion_anonymous
@@ -50,7 +55,9 @@ After that, you will get a data structure as follows:
 	└── val
 	    ├── 2011_09_26_drive_0002_sync
 	    └── ...
+
 After preparing the dataset, you should generate a json file containing paths to individual images.
+
 	$ cd NLSPN_ROOT/utils
 
 	# For Train / Validation
@@ -65,9 +72,12 @@ After preparing the dataset, you should generate a json file containing paths to
 	
 ### 3. Training and Testing.
 Modify the mode in the configure file, and:
+
 	$ cd SLFNet
 	$python main.py
+
 Please refer to the SLFNet/configure/kitti_cfg.yaml for more options. The testing results will be save and you can analyze the results by
+
 	$ python analyze.py
 
 ### 4. Pre-trained Model and Results
