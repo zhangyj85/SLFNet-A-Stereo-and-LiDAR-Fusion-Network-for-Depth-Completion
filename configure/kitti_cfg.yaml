@@ -1,0 +1,69 @@
+################################################################################
+# path setting
+################################################################################
+path:
+  data_root: "../data_depth_velodyne"     # root path of dataset
+  loadmodel: "./checkpoints/SLFNet/kitti.tar"
+  savemodel: "./checkpoints/SLFNet"       # save model path
+  split_json: "../data_json/kitti_dc_train_val.json"
+
+
+################################################################################
+# usual setting
+################################################################################
+environment:
+  use_cuda: True                  # using cuda?
+  seed: 7240                      # rand seed
+  reemerge: True                  # Minimize randomness when reemerge=True
+  only_test: True                 # only test
+
+
+################################################################################
+# training parameters
+################################################################################
+train:
+  max_epochs: 25                  # max training epoch
+  batch_size: 8                   # batch size
+  lr: 0.001                       # adam learning rate
+  report_batch: 20                # every x batches, report loss
+  show_scans: True                # show scans during training
+  workers: 4                      # number of threads to get data
+  gpus_id: "2,3"                  # gpu ids when training use
+
+
+################################################################################
+# testing parameters
+################################################################################
+test:
+  split: "val"                 # [train, val, test]
+  batch_size: 1                 # batch size
+  gpus_id: "0"                  # gpu ids when testing use
+
+
+################################################################################
+# model setting
+################################################################################
+model:
+  model_name: "SLFNet"
+  max_disp: 192
+  max_depth: 100
+
+  nlspn:
+    prop_time: 19               # NLSPN prop time
+    affinity: "TC"              # Affinity way, [AS, ASS, TC, TGASS]
+    affinity_gamma: 1.0         # usful when affinity = TGASS
+    conf_prop: True             # Using NLSPN with confidence map
+    preserve_input: True        # Using NLSPN and preserve the sparse dentp
+    legacy: False               # Using NLSPN with legacy
+
+
+################################################################################
+# loss design
+################################################################################
+loss:
+  predict_weight: 1.0           # weight of predict Loss
+  PAM_weight: 0.5               # weight of PAM module Loss
+  smooth_weight: 0.1            # weight of smooth depth and disparity Loss
+  photometric_weight: 0.5       # weight of photometric Loss
+  SSIM_weight: 0.85             # weight of SSIM in photometric Loss
+

@@ -2,42 +2,83 @@
 
 Pytorch implementation of "SLFNet: A Stereo and LiDAR Fusion Network for Depth Completion", RAL2022.
 
-[[arXiv]](http://arxiv.org/abs/2009.08250)
+[[paper]](https://ieeexplore.ieee.org/abstract/document/9830848)
 
-## Overview
-<img width="800" src="https://github.com/LongguangWang/PAM/blob/master/Figs/PASMnet.png"/></div>
 
 ## Requirements
 - Python 3.8
 - PyTorch 1.6
 - CUDA 10.2
 
-## Train
-### 1. Prepare training data
-Download [SceneFlow](https://lmb.informatik.uni-freiburg.de/resources/datasets/SceneFlowDatasets.en.html) and [KITTI 2015](http://www.cvlibs.net/datasets/kitti/eval_scene_flow.php?benchmark=stereo) datasets.
+## Usage
+### 1. Prepare KITTI Depth Completion (KITTIDC) Dataset.
+We used preprocessed KITTIDC dataset provided by [Jinsun Park](https://github.com/zzangjinsun/NLSPN_ECCV20).
+- KITTI DC dataset is available at the [KITTI DC Website](https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion).
+- For color images, KITTI Raw dataset is also needed, which is available at the [KITTI Raw Website](https://www.cvlibs.net/datasets/kitti/raw_data.php).
+- Please follow the official instructions (cf., devkit/readme.txt in each dataset) for preparation.
 
-### 2. Train on SceneFlow
-Run `./train.sh` to train on the SceneFlow dataset. Please update `datapath` in the bash file as your training data path.
+After downloading datasets, you should first copy color images, poses, and calibrations from the KITTI Raw to the KITTI DC dataset.
+	$ cd SLFNet/data_prepare
+	$ python prepare_KITTI_DC.py --path_root_dc PATH_TO_KITTI_DC --path_root_raw PATH_TO_KITTI_RAW
+After that, you will get a data structure as follows:
+	.
+	├── depth_selection
+	│    ├── test_depth_completion_anonymous
+	│    │    ├── image
+	│    │    ├── intrinsics
+	│    │    └── velodyne_raw
+	│    ├── test_depth_prediction_anonymous
+	│    │    ├── image
+	│    │    └── intrinsics
+	│    └── val_selection_cropped
+	│        ├── groundtruth_depth
+	│        ├── image
+	│        ├── intrinsics
+	│        └── velodyne_raw
+	├── train
+	│    ├── 2011_09_26_drive_0001_sync
+	│    │    ├── image_02
+	│    │    │     └── data
+	│    │    ├── image_03
+	│    │    │     └── data
+	│    │    ├── oxts
+	│    │    │     └── data
+	│    │    └── proj_depth
+	│    │        ├── groundtruth
+	│    │        └── velodyne_raw
+	│    └── ...
+	└── val
+	    ├── 2011_09_26_drive_0002_sync
+	    └── ...
+After preparing the dataset, you should generate a json file containing paths to individual images.
+	$ cd NLSPN_ROOT/utils
 
-### 3. Finetune on KITTI 2015
-Run `./finetune.sh` to finetune on the KITTI 2015 dataset. Please update `datapath` in the bash file as your training data path.
+	# For Train / Validation
+	$ python generate_json_KITTI_DC.py --path_root PATH_TO_KITTI_DC
 
-## Test
-### 1. Download pre-trained models
-Download pre-trained models to `./log`.
-- [Google Drive](https://drive.google.com/file/d/1_eXJnK8p-2NF4kxrj3ki6OHwXptO4iYp/view)
-- [Baidu Drive](https://pan.baidu.com/s/1Yllm8992_n8i5YfwufyJ-Q)[code:fe12]
+	# For Online Evaluation Data
+	$ python generate_json_KITTI_DC.py --path_root PATH_TO_KITTI_DC --name_out kitti_dc_test.json --test_data
 
-### 2. Test on SceneFlow
-Run `./test.sh` to evaluate on the test set of the SceneFlow dataset. Please update `datapath` in the bash file as your test data path.
+### 2. Build and install DCN module for NLSPN.
+	$ cd NLSPN_ROOT/src/model/deformconv
+	$ sh make.sh
+	
+### 3. Training and Testing.
+Modify the mode in the configure file, and:
+	$ cd SLFNet
+	$python main.py
+Please refer to the SLFNet/configure/kitti_cfg.yaml for more options. The testing results will be save and you can analyze the results by
+	$ python analyze.py
 
-### 3. Test on KITTI 2015
-Run `./submission.sh` to save png predictions on the test set of the KITTI 2015 dataset to the folder `./results`. Please update `datapath` in the bash file as your test data path.
+### 4. Pre-trained Model and Results
+We release our pre-trained model on the [KITTIDC](https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion) dataset.
+The pre-trained model is located in checkpoints/SLFNet/kitti.tar
 
 ## Results
-<img width="800" src="https://github.com/LongguangWang/PAM/blob/master/Figs/Fig_PASMnet.png"/></div>
-
-<img width="500" src="https://github.com/LongguangWang/PAM/blob/master/Figs/Tab_PASMnet.png"/></div>
+|Dataset|RMSE(mm)|MAE(mm)|iRMSE(1/km)|iMAE(1/km)|
+|----|----|----|----|----|
+|KITTIDC|641.1|197.0|1.7727|0.8761|
+|Virtual KITTI2|2843.16|696.2|6.794|2.007|
 
 ## Citation
 ```
@@ -52,5 +93,3 @@ Run `./submission.sh` to save png predictions on the test set of the KITTI 2015 
 ## Acknowledgement
 
 This code is built on [PAM](https://github.com/The-Learning-And-Vision-Atelier-LAVA/PAM) and [NLSPN](https://github.com/zzangjinsun/NLSPN_ECCV20). We thank the authors for sharing their codes.
-# SLFNet-A-Stereo-and-LiDAR-Fusion-Network-for-Depth-Completion
-# SLFNet-A-Stereo-and-LiDAR-Fusion-Network-for-Depth-Completion
